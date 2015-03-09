@@ -11,17 +11,30 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
+    var window: UIWindow!
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
-        self.window!.rootViewController = TodoTableViewController()
+        let myFirstTab = TodoTableViewController()
+        let mySecondTab = SecondViewController()
         
-        self.window!.backgroundColor = UIColor.whiteColor()
-        self.window!.makeKeyAndVisible()
+        // タブを要素に持つArrayの.を作成する.
+        let myTabs = NSArray(objects: myFirstTab, mySecondTab)
+        
+        // UITabControllerの作成する.
+        let myTabBarController = UITabBarController()
+        
+        // ViewControllerを設定する.
+        myTabBarController.setViewControllers(myTabs, animated: false)
+        
+        // RootViewControllerに設定する.
+        self.window.rootViewController = myTabBarController
+        //self.window.rootViewController = myFirstTab
+        
+        self.window.makeKeyAndVisible()
         
         return true
     }

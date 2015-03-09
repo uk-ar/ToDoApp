@@ -21,25 +21,56 @@ class TodoTableViewController : UIViewController {
     
     var tableView : UITableView?
     
+    override init() {
+        super.init()
+        
+        // Viewの背景色をCyanに設定する.
+        //self.view.backgroundColor = UIColor.cyanColor()
+        self.view.backgroundColor = UIColor.whiteColor()
+        
+        //tabBarItemのアイコンをFeaturedに、タグを1と定義する.
+        self.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Featured, tag: 1)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    required override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Status Barの高さを取得する.
+        let barHeight: CGFloat = UIApplication.sharedApplication().statusBarFrame.size.height
         
+        // Viewの高さと幅を取得する.
+        let displayWidth: CGFloat = self.view.frame.width
+        let displayHeight: CGFloat = self.view.frame.height
+        
+        // TableViewの生成する(status barの高さ分ずらして表示).
+        //let myTableView: UITableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
         let header = UIImageView(frame: CGRect(x: 0, y: 0, width: 320, height: 64))
         header.image = UIImage(named:"header")
         header.userInteractionEnabled = true
         
         let title = UILabel(frame: CGRect(x: 10, y: 20, width: 310, height: 44))
+        //let title = UILabel(frame: CGRect(x: 10, y: barHeight, width: displayWidth-10, height: 44))
         title.text = "Todoリスト🐶🐮"
         header.addSubview(title)
         
         let button = UIButton.buttonWithType(.System) as UIButton
         button.frame = CGRect(x: 320 - 50, y: 20, width: 50, height: 44)
+        //button.frame = CGRect(x: displayWidth - 50, y: 20, width: 50, height: 44)
         button.setTitle("追加", forState: .Normal)
         button.addTarget(self, action:"showCreateView", forControlEvents: .TouchUpInside)
         header.addSubview(button)
         
         let screenWidth = UIScreen.mainScreen().bounds.size.height
         self.tableView = UITableView(frame: CGRect(x: 0, y: 60, width: 320, height: screenWidth - 60))
+        //self.tableView = UITableView(frame: CGRect(x: 0, y: 60, width: displayWidth, height: screenWidth - 60))
+        //self.tableView = UITableView(frame: CGRect(x: 0, y: 60, width: 320, height: screenWidth))
         self.tableView!.dataSource = self
         
         self.view.addSubview(self.tableView!)
