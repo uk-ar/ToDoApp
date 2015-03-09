@@ -12,10 +12,10 @@
 		4F18F8721AAE085100213A9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F18F8711AAE085100213A9F /* Images.xcassets */; };
 		4F18F8751AAE085100213A9F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F18F8731AAE085100213A9F /* LaunchScreen.xib */; };
 		4F18F8811AAE085100213A9F /* ToDoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18F8801AAE085100213A9F /* ToDoAppTests.swift */; };
-		4F18F88B1AAE08F800213A9F /* TodoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18F88A1AAE08F800213A9F /* TodoDataManager.swift */; };
 		4F18F88D1AAE093A00213A9F /* TodoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18F88C1AAE093A00213A9F /* TodoTableViewCell.swift */; };
 		4F18F88F1AAE098000213A9F /* TodoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18F88E1AAE098000213A9F /* TodoTableViewController.swift */; };
 		4F18F8911AAE0D1000213A9F /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18F8901AAE0D1000213A9F /* SecondViewController.swift */; };
+		4F18F8931AAE47DF00213A9F /* BookDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18F8921AAE47DF00213A9F /* BookDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,10 +38,10 @@
 		4F18F87A1AAE085100213A9F /* ToDoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F18F87F1AAE085100213A9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F18F8801AAE085100213A9F /* ToDoAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoAppTests.swift; sourceTree = "<group>"; };
-		4F18F88A1AAE08F800213A9F /* TodoDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoDataManager.swift; sourceTree = "<group>"; };
 		4F18F88C1AAE093A00213A9F /* TodoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoTableViewCell.swift; sourceTree = "<group>"; };
 		4F18F88E1AAE098000213A9F /* TodoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoTableViewController.swift; sourceTree = "<group>"; };
 		4F18F8901AAE0D1000213A9F /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		4F18F8921AAE47DF00213A9F /* BookDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +83,8 @@
 		4F18F8671AAE085100213A9F /* ToDoApp */ = {
 			isa = PBXGroup;
 			children = (
+				4F18F8921AAE47DF00213A9F /* BookDataManager.swift */,
 				4F18F86A1AAE085100213A9F /* AppDelegate.swift */,
-				4F18F88A1AAE08F800213A9F /* TodoDataManager.swift */,
 				4F18F88C1AAE093A00213A9F /* TodoTableViewCell.swift */,
 				4F18F88E1AAE098000213A9F /* TodoTableViewController.swift */,
 				4F18F8901AAE0D1000213A9F /* SecondViewController.swift */,
@@ -222,8 +222,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F18F88F1AAE098000213A9F /* TodoTableViewController.swift in Sources */,
+				4F18F8931AAE47DF00213A9F /* BookDataManager.swift in Sources */,
 				4F18F86B1AAE085100213A9F /* AppDelegate.swift in Sources */,
-				4F18F88B1AAE08F800213A9F /* TodoDataManager.swift in Sources */,
 				4F18F8911AAE0D1000213A9F /* SecondViewController.swift in Sources */,
 				4F18F88D1AAE093A00213A9F /* TodoTableViewCell.swift in Sources */,
 			);
@@ -417,6 +417,7 @@
 				4F18F8861AAE085100213A9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4F18F8871AAE085100213A9F /* Build configuration list for PBXNativeTarget "ToDoAppTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +426,7 @@
 				4F18F8891AAE085100213A9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

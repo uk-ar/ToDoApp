@@ -14,7 +14,7 @@ enum TodoAlertViewType {
 
 class TodoTableViewController : UIViewController {
     
-    var todo = TodoDataManager.sharedInstance
+    var books = BookDataManager.sharedInstance
     
     var alert : UIAlertController?
     var alertType : TodoAlertViewType?
@@ -51,11 +51,11 @@ class TodoTableViewController : UIViewController {
         
         // TableViewの生成する(status barの高さ分ずらして表示).
         //let myTableView: UITableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
-        let header = UIImageView(frame: CGRect(x: 0, y: 0, width: 320, height: 64))
+        let header = UIImageView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: 64))
         header.image = UIImage(named:"header")
         header.userInteractionEnabled = true
         
-        let title = UILabel(frame: CGRect(x: 10, y: 20, width: 310, height: 44))
+        let title = UILabel(frame: CGRect(x: 10, y: 20, width: displayWidth-10, height: 44))
         //let title = UILabel(frame: CGRect(x: 10, y: barHeight, width: displayWidth-10, height: 44))
         title.text = "Todoリスト🐶🐮"
         header.addSubview(title)
@@ -68,7 +68,8 @@ class TodoTableViewController : UIViewController {
         header.addSubview(button)
         
         let screenWidth = UIScreen.mainScreen().bounds.size.height
-        self.tableView = UITableView(frame: CGRect(x: 0, y: 60, width: 320, height: screenWidth - 60))
+        //println(displayWidth,displayHeight,screenWidth)
+        self.tableView = UITableView(frame: CGRect(x: 0, y: 60, width: displayWidth, height: screenWidth - 60))
         //self.tableView = UITableView(frame: CGRect(x: 0, y: 60, width: displayWidth, height: screenWidth - 60))
         //self.tableView = UITableView(frame: CGRect(x: 0, y: 60, width: 320, height: screenWidth))
         self.tableView!.dataSource = self
@@ -102,14 +103,14 @@ extension TodoTableViewController : UITextFieldDelegate {
         if let type = self.alertType {
             switch type {
             case .Create:
-                let todo = TODO(title: textField.text)
-                if self.todo.create(todo) {
+                let todo = Book(title: textField.text)
+                if self.books.create(todo) {
                     textField.text = nil
                     self.tableView!.reloadData()
                 }
             case let .Update(index):
-                let todo = TODO(title: textField.text)
-                if self.todo.update(todo, at:index) {
+                let todo = Book(title: textField.text)
+                if self.books.update(todo, at:index) {
                     textField.text = nil
                     self.tableView!.reloadData()
                 }
@@ -130,7 +131,7 @@ extension TodoTableViewController : TodoTableViewCellDelegate {
         
         self.alert = UIAlertController(title: "編集", message: nil, preferredStyle: .Alert)
         self.alert!.addTextFieldWithConfigurationHandler({ textField in
-            textField.text = self.todo[index].title
+            textField.text = self.books[index].title
             textField.delegate = self
             textField.returnKeyType = .Done
         })
@@ -146,7 +147,7 @@ extension TodoTableViewController : TodoTableViewCellDelegate {
         
         self.alert = UIAlertController(title: "削除", message: nil, preferredStyle: .Alert)
         self.alert!.addAction(UIAlertAction(title: "Delete", style: .Destructive) { action in
-            self.todo.remove(index)
+            self.books.remove(index)
             self.tableView!.reloadData()
             })
         self.alert!.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -157,7 +158,7 @@ extension TodoTableViewController : TodoTableViewCellDelegate {
 extension TodoTableViewController : UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.todo.size
+        return self.books.size
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -165,7 +166,7 @@ extension TodoTableViewController : UITableViewDataSource {
         let cell = TodoTableViewCell(style: .Default, reuseIdentifier: nil)
         cell.delegate = self
         
-        cell.textLabel?.text = self.todo[indexPath.row].title
+        cell.textLabel?.text = self.books[indexPath.row].title
         cell.tag = indexPath.row
         
         return cell
