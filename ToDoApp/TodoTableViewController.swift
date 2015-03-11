@@ -14,7 +14,7 @@ enum TodoAlertViewType {
 
 class TodoTableViewController : UIViewController {
     
-    var books = BookDataManager.sharedInstance
+    var books = BookDataManager.unreadBooks
     
     var alert : UIAlertController?
     var alertType : TodoAlertViewType?

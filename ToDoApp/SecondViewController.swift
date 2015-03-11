@@ -7,7 +7,7 @@
 import UIKit
 
 class SecondViewController: UIViewController {
-    var books = BookDataManager.sharedInstance
+    var books = BookDataManager.unreadBooks
     override init() {
         super.init()
 
@@ -67,11 +67,11 @@ extension SecondViewController : UITableViewDelegate {
         println("Value: \(self.books[indexPath.row])")
     }
 }
-enum CellState {
-    case Right     //= MCSwipeTableViewCellState.State1
-    case LongRight //= MCSwipeTableViewCellState.State2
-    case Left      //= MCSwipeTableViewCellState.State3
-    case LongLeft  //= MCSwipeTableViewCellState.State4
+struct GestureDirection {
+    static let Right     = MCSwipeTableViewCellState.State1
+    static let LongRight = MCSwipeTableViewCellState.State2
+    static let Left      = MCSwipeTableViewCellState.State3
+    static let LongLeft  = MCSwipeTableViewCellState.State4
 }
 struct Action {
     let view: UIView!
@@ -128,8 +128,15 @@ extension SecondViewController : UITableViewDataSource {
             //     println("Did swipe \"Checkmark\" cell")
             //     //self.deleteCell(cell)
             //                          }
-        );
+                     );
+        addGesture(cell, direction: GestureDirection.Left, action: action)
         return cell
+    }
+    func addGesture(cell: MCSwipeTableViewCell!,direction: MCSwipeTableViewCellState,action: Action){
+        cell.setSwipeGestureWithView(action.view, color: action.color,
+            mode: .Exit, state: MCSwipeTableViewCellState.State1,
+            completionBlock: action.block
+        );
     }
 }
 

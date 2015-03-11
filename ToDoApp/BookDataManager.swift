@@ -12,16 +12,22 @@ struct Book {
     var title : String
 }
 //TODO: move to static class variable
-private let unreadBooks = BookDataManager(storeKey: "unreadBooks.store_key")
-private let boxedBooks = BookDataManager(storeKey: "boxedBooks.store_key")
-private let doneBooks = BookDataManager(storeKey: "doneBooks.store_key")
+private let _unreadBooks = BookDataManager(storeKey: "unreadBooks.store_key")
+private let _inBoxBooks = BookDataManager(storeKey: "inBoxBooks.store_key")
+private let _doneBooks = BookDataManager(storeKey: "doneBooks.store_key")
 
 final class BookDataManager {
 
     let STORE_KEY:String
     var books: [Book]
-    class var sharedInstance : BookDataManager {
-        return unreadBooks
+    class var unreadBooks : BookDataManager {
+        return _unreadBooks
+    }
+    class var inBoxBooks : BookDataManager {
+        return _inBoxBooks
+    }
+    class var doneBooks : BookDataManager {
+        return _doneBooks
     }
     private init(storeKey: String) {
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -95,5 +101,5 @@ final class BookDataManager {
     }
 }
 // println(BookDataManager.unreadBooks)
-// println(BookDataManager.boxedBooks)
+// println(BookDataManager.inBoxBooks)
 // println(BookDataManager.doneBooks)
