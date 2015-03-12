@@ -67,11 +67,23 @@ extension SecondViewController : UITableViewDelegate {
         println("Value: \(self.books[indexPath.row])")
     }
 }
-struct GestureDirection {
-    static let Right     = MCSwipeTableViewCellState.State1
-    static let LongRight = MCSwipeTableViewCellState.State2
-    static let Left      = MCSwipeTableViewCellState.State3
-    static let LongLeft  = MCSwipeTableViewCellState.State4
+enum GestureDirection {
+    case Right
+    case LongRight
+    case Left
+    case LongLeft
+    func toCellState() -> MCSwipeTableViewCellState{
+        switch self {
+        case let .Right:
+            return MCSwipeTableViewCellState.State1
+        case let .LongRight:
+            return MCSwipeTableViewCellState.State2
+        case let .Left:
+            return MCSwipeTableViewCellState.State3
+        case let .LongLeft:
+            return MCSwipeTableViewCellState.State4
+        }
+    }
 }
 struct Action {
     let view: UIView!
@@ -109,32 +121,50 @@ extension SecondViewController : UITableViewDataSource {
              cell!.contentView.backgroundColor = UIColor.whiteColor();
         }
         cell.textLabel?.text = "\(books[indexPath.row])"
-        //cell.textLabel?.text = "Switch Mode Cell"
+        //cell.textLabel?.text = "Switch Mode Cell"
         cell.detailTextLabel?.text = "Swipe to swich";
-        let checkView = self.viewWithImageName("check");
         let greenColor = UIColor(red: 85.0 / 255.0, green: 213.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0);
-        let block = { (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) -> () in
-            println("Did swipe \"Closure\" cell")
+        let redColor   = UIColor(red: 232.0 / 255.0, green: 61.0 / 255.0, blue: 14 / 255.0, alpha: 1.0);
+        let yellowColor = UIColor(red: 254.0 / 255.0, green: 217.0 / 255.0, blue: 56.0 / 255.0, alpha: 1.0);
+        let brownColor = UIColor(red: 206.0 / 255.0, green: 149.0 / 255.0, blue: 98.0 / 255.0, alpha: 1.0);
+
+        let checkView = self.viewWithImageName("check");
+        let crossView = self.viewWithImageName("cross");
+        let clockView = self.viewWithImageName("clock");
+        let listView  = self.viewWithImageName("list");
+
+        let checkAction =
+            Action(view: checkView, color: greenColor){
+            (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
+            println("Did swipe \"Checkmark\" cell")
         }
-        let action = Action(view: checkView, color: greenColor, block: {
-                    (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
-                    println("Did swipe \"Closure\" cell")
-                })
-        //contentView.addGestureRecognizer(direction:,action:)
-        cell.setSwipeGestureWithView(action.view, color: action.color,
-            mode: .Exit, state: MCSwipeTableViewCellState.State1,
-            completionBlock: action.block
-            // { (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
-            //     println("Did swipe \"Checkmark\" cell")
-            //     //self.deleteCell(cell)
-            //                          }
-                     );
-        addGesture(cell, direction: GestureDirection.Left, action: action)
+
+        let crossAction = Action(view: crossView, color: redColor){
+            (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
+            println("Did swipe \"Cross\" cell")
+        }
+
+        let clockAction = Action(view: clockView, color: yellowColor){
+            (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
+            println("Did swipe \"Clock\" cell")
+        }
+
+        let listAction = Action(view: listView, color: brownColor){
+            (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
+            println("Did swipe \"List\" cell")
+        }
+
+        addGesture(cell, direction: .Right, action: checkAction)
+        addGesture(cell, direction: .LongRight, action: crossAction)
+        addGesture(cell, direction: .Left, action: clockAction)
+        addGesture(cell, direction: .LongLeft, action: listAction)
         return cell
     }
-    func addGesture(cell: MCSwipeTableViewCell!,direction: MCSwipeTableViewCellState,action: Action){
-        cell.setSwipeGestureWithView(action.view, color: action.color,
-            mode: .Exit, state: MCSwipeTableViewCellState.State1,
+    func addGesture(cell: MCSwipeTableViewCell! ,
+                    direction: GestureDirection ,action: Action){
+        cell.setSwipeGestureWithView(
+            action.view, color: action.color, mode: .Exit,
+            state: direction.toCellState(),
             completionBlock: action.block
         );
     }
