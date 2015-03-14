@@ -7,7 +7,9 @@
 import UIKit
 
 class BookTableViewController: UIViewController {
-    var books = BookDataManager.unreadBooks
+    var books :BookDataManager!
+
+    //initializer for UIViewController
     override init() {
         super.init()
 
@@ -40,6 +42,7 @@ class BookTableViewController: UIViewController {
         self.view.addSubview(myTableView)
     }
 
+    // required for protocol NSCoding
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }

@@ -20,9 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let myFirstTab = TodoTableViewController()
         let mySecondTab = BookTableViewController()
-
+        mySecondTab.books = BookDataManager.unreadBooks
+        let doneTab = BookTableViewController()
+        doneTab.books = BookDataManager.doneBooks
+        
         // タブを要素に持つArrayの.を作成する.
-        let myTabs = NSArray(objects: myFirstTab, mySecondTab)
+        let myTabs = NSArray(objects: myFirstTab, mySecondTab,doneTab)
 
         // UITabControllerの作成する.
         let myTabBarController = UITabBarController()
