@@ -17,25 +17,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        
+
         let myFirstTab = TodoTableViewController()
-        let mySecondTab = SecondViewController()
-        
+        let mySecondTab = BookTableViewController()
+
         // タブを要素に持つArrayの.を作成する.
         let myTabs = NSArray(objects: myFirstTab, mySecondTab)
-        
+
         // UITabControllerの作成する.
         let myTabBarController = UITabBarController()
-        
+
         // ViewControllerを設定する.
-        myTabBarController.setViewControllers(myTabs, animated: false)
-        
+        myTabBarController.setViewControllers(myTabs as [AnyObject], animated: false)
+
         // RootViewControllerに設定する.
         self.window.rootViewController = myTabBarController
         //self.window.rootViewController = myFirstTab
-        
+
         self.window.makeKeyAndVisible()
-        
+
         return true
     }
 
@@ -63,4 +63,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-
