@@ -10,7 +10,7 @@ import UIKit
 
 @objc protocol BookTableViewCellDelegate {
     optional func updateBook(index: Int)
-    optional func moveBook(index: Int)
+    optional func removeBook(index: Int)
 }
 
 struct Action {
@@ -38,49 +38,31 @@ enum GestureDirection {
     }
 }
 
+enum BookAlertViewType {
+    case Create, Update(Int), Remove(Int)
+}
+
 class BookTableViewCell : MCSwipeTableViewCell {
     //var delegate used in parent
-    weak var myDelegate: BookTableViewCellDelegate?
-    var checkAction :Action
-    var crossAction :Action
-    var clockAction :Action
-    var listAction :Action
+    weak var myDelegate: BookTableViewCellDelegate!
+
+    let greenColor, redColor, yellowColor, brownColor :UIColor
+    let checkView, crossView, clockView, listView :UIView
 
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
-        let greenColor = UIColor(red: 85.0 / 255.0, green: 213.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0);
-        let redColor   = UIColor(red: 232.0 / 255.0, green: 61.0 / 255.0, blue: 14 / 255.0, alpha: 1.0);
-        let yellowColor = UIColor(red: 254.0 / 255.0, green: 217.0 / 255.0, blue: 56.0 / 255.0, alpha: 1.0);
-        let brownColor = UIColor(red: 206.0 / 255.0, green: 149.0 / 255.0, blue: 98.0 / 255.0, alpha: 1.0);
+        self.greenColor = UIColor(red: 85.0 / 255.0, green: 213.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0);
+        self.redColor   = UIColor(red: 232.0 / 255.0, green: 61.0 / 255.0, blue: 14 / 255.0, alpha: 1.0);
+        self.yellowColor = UIColor(red: 254.0 / 255.0, green: 217.0 / 255.0, blue: 56.0 / 255.0, alpha: 1.0);
+        self.brownColor = UIColor(red: 206.0 / 255.0, green: 149.0 / 255.0, blue: 98.0 / 255.0, alpha: 1.0);
+        self.checkView = BookTableViewCell.viewWithImageName("check");
+        self.crossView = BookTableViewCell.viewWithImageName("cross");
+        self.clockView = BookTableViewCell.viewWithImageName("clock");
+        self.listView  = BookTableViewCell.viewWithImageName("list");
 
-        let checkView = BookTableViewCell.viewWithImageName("check");
-        let crossView = BookTableViewCell.viewWithImageName("cross");
-        let clockView = BookTableViewCell.viewWithImageName("clock");
-        let listView  = BookTableViewCell.viewWithImageName("list");
-
-        self.checkAction =
-            Action(view: checkView, color: greenColor){
-            (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
-            println("Did swipe \"Checkmark\" cell")
-        }
-
-        self.crossAction = Action(view: crossView, color: redColor){
-            (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
-            println("Did swipe \"Cross\" cell")
-        }
-
-        self.clockAction = Action(view: clockView, color: yellowColor){
-            (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
-            println("Did swipe \"Clock\" cell")
-        }
-
-        self.listAction = Action(view: listView, color: brownColor){
-            (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode) in
-            println("Did swipe \"List\" cell")
-        }
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // self.selectionStyle = .None
 
@@ -110,7 +92,8 @@ class BookTableViewCell : MCSwipeTableViewCell {
         myDelegate?.updateBook?(self.tag)
     }
 
-    func moveBook() {
-        myDelegate?.moveBook?(self.tag)
+    func removeBook() {
+        //let indexPath: NSIndexPath = self.tableView.indexPathForCell(self)!
+        //myDelegate?.removeBook?(indexPath.row)
     }
 }

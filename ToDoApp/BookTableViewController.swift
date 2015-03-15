@@ -8,6 +8,7 @@ import UIKit
 
 class BookTableViewController: UIViewController {
     var books :BookDataManager!
+    var tableView :UITableView!
 
     //initializer for UIViewController
     override init() {
@@ -25,6 +26,7 @@ class BookTableViewController: UIViewController {
         // Viewの高さと幅を取得する.
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
+        //println(displayHeight)//667
 
         // TableViewの生成する(status barの高さ分ずらして表示).
         let myTableView: UITableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
@@ -40,6 +42,8 @@ class BookTableViewController: UIViewController {
 
         // Viewに追加する.
         self.view.addSubview(myTableView)
+
+        self.tableView=myTableView
     }
 
     // required for protocol NSCoding
@@ -99,11 +103,39 @@ extension BookTableViewController : UITableViewDataSource {
         //cell.textLabel?.text = "Switch Mode Cell"
         cell.detailTextLabel?.text = "Swipe to swich";
 
-        cell.addGesture(.Right,     action: cell.checkAction)
-        cell.addGesture(.LongRight, action: cell.crossAction)
-        cell.addGesture(.Left,      action: cell.clockAction)
-        cell.addGesture(.LongLeft,  action: cell.listAction)
+        let checkAction = Action(view: cell.checkView, color:cell.greenColor){
+            cell, state, mode in
+            println("Did swipe \"Checkmark\" cell")
+            self.deleteCell(cell)
+        }
+
+        let crossAction = Action(view: cell.crossView, color:cell.redColor){
+            cell, state, mode in
+            println("Did swipe \"Cross\" cell")
+        }
+
+        let clockAction = Action(view: cell.clockView, color:cell.yellowColor){
+            cell, state, mode in
+            println("Did swipe \"Clock\" cell")
+        }
+
+        let listAction = Action(view: cell.listView, color: cell.brownColor){
+            cell, state, mode in
+            println("Did swipe \"List\" cell")
+        }
+
+        cell.addGesture(.Right,     action: checkAction)
+        cell.addGesture(.LongRight, action: crossAction)
+        cell.addGesture(.Left,      action: clockAction)
+        cell.addGesture(.LongLeft,  action: listAction)
         return cell
+    }
+
+    func deleteCell(cell: MCSwipeTableViewCell)->Book{
+        let indexPath:NSIndexPath=self.tableView.indexPathForCell(cell)!
+        let result=books.remove(indexPath.row)
+        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        return result
     }
 }
 

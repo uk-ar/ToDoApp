@@ -89,15 +89,11 @@ final class BookDataManager {
         return false
     }
 
-    func remove(index: Int) -> Book? {
-        if (index >= self.books.count) {
-            return nil
-        }
-        let target = self.books[index]
-        self.books.removeAtIndex(index)
+    func remove(index: Int) -> Book {
+        let removed = self.books.removeAtIndex(index)
         self.save()
 
-        return target
+        return removed
     }
 }
 // println(BookDataManager.unreadBooks)
