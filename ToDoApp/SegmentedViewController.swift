@@ -5,12 +5,14 @@
 
 import UIKit
 
-class SegmentedViewController: UIViewController {
+class SegmentedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    let mySegLabel: UILabel = UILabel(frame: CGRectMake(0,0,150,150))
+    let myItems: NSArray = ["TEST1", "TEST2", "TEST3"]
+    var myTableView: UITableView!
 
     override init() {
         super.init()
+        //remove bar item with all init method
         self.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Featured, tag: 1)
     }
 
@@ -26,6 +28,8 @@ class SegmentedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.view.backgroundColor = UIColor.greenColor()
+
         // Status Barの高さを取得する.
         let barHeight: CGFloat = UIApplication.sharedApplication().statusBarFrame.size.height
 
@@ -34,49 +38,45 @@ class SegmentedViewController: UIViewController {
         let displayHeight: CGFloat = self.view.frame.height
 
         // 表示する配列を作成する.
-        let myArray: NSArray = ["Red","Blue","Green"]
+        let myArray: NSArray = ["Unread","InBox","Done"]
 
         // SegmentedControlを作成する.
         let mySegcon: UISegmentedControl = UISegmentedControl(items: myArray)
 
-        mySegcon.center = CGPoint(x: displayWidth/2, y: 400)
-        mySegcon.backgroundColor = UIColor.grayColor()
-        mySegcon.tintColor = UIColor.whiteColor()
-
+        mySegcon.center = CGPoint(x: displayWidth/2, y: barHeight + mySegcon.frame.height/2)
+        //mySegcon.frame = CGRect(x: 0, y: barHeight, width: displayWidth, height: 30)
         // イベントを追加する.
         mySegcon.addTarget(self, action: "segconChanged:", forControlEvents: UIControlEvents.ValueChanged)
-
         // Viewに追加する.
         self.view.addSubview(mySegcon)
 
-        // Labelを作成する.
-        mySegLabel.backgroundColor = UIColor.whiteColor()
-        mySegLabel.layer.masksToBounds = true
-        mySegLabel.layer.cornerRadius = 75.0
-        mySegLabel.textColor = UIColor.whiteColor()
-        mySegLabel.shadowColor = UIColor.grayColor()
-        mySegLabel.font = UIFont.systemFontOfSize(CGFloat(30))
-        mySegLabel.textAlignment = NSTextAlignment.Center
-        mySegLabel.layer.position = CGPoint(x: self.view.bounds.width/2,y: 200)
+        // TableViewの生成する(status barの高さ分ずらして表示).
+        let myTableView: UITableView = UITableView(frame: CGRect(x: 0, y: barHeight + mySegcon.frame.height, width: displayWidth, height: displayHeight - barHeight))
+        // Cell名の登録をおこなう.
+        myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
 
-        // Viewの背景色をCyanにする.
-        self.view.backgroundColor = UIColor.cyanColor()
+        // DataSourceの設定をする.
+        myTableView.dataSource = self
 
+        // Delegateを設定する.
+        myTableView.delegate = self
+
+        self.myTableView=myTableView
         // Viewに追加する.
-        self.view.addSubview(mySegLabel);
+        self.view.addSubview(myTableView)
     }
 
     func segconChanged(segcon: UISegmentedControl){
 
         switch(segcon.selectedSegmentIndex){
         case 0:
-            mySegLabel.backgroundColor = UIColor.redColor()
+            self.myTableView.backgroundColor = UIColor.redColor()
 
         case 1:
-            mySegLabel.backgroundColor = UIColor.blueColor()
+            self.myTableView.backgroundColor = UIColor.blueColor()
 
         case 2:
-            mySegLabel.backgroundColor = UIColor.greenColor()
+            self.myTableView.backgroundColor = UIColor.greenColor()
 
         default:
             println("Error")
@@ -87,4 +87,34 @@ class SegmentedViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+
+    /*
+    Cellが選択された際に呼び出される.
+    */
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println("Num: \(indexPath.row)")
+        println("Value: \(myItems[indexPath.row])")
+    }
+
+    /*
+    Cellの総数を返す.
+    */
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return myItems.count
+    }
+
+    /*
+    Cellに値を設定する.
+    */
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        // Cellの.を取得する.
+        let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath) as UITableViewCell
+
+        // Cellに値を設定する.
+        cell.textLabel!.text = "\(myItems[indexPath.row])"
+
+        return cell
+    }
+
 }
