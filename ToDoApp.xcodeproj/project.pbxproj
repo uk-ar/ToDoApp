@@ -17,6 +17,7 @@
 		4F18F8931AAE47DF00213A9F /* BookDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F18F8921AAE47DF00213A9F /* BookDataManager.swift */; };
 		4F245DAD1AB4BAAB006BCEEE /* BookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F245DAC1AB4BAAB006BCEEE /* BookTableViewController.swift */; };
 		4F245DAF1AB4C102006BCEEE /* ArrayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F245DAE1AB4C102006BCEEE /* ArrayDataSource.swift */; };
+		4F245DB11AB625DB006BCEEE /* SegmentedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F245DB01AB625DB006BCEEE /* SegmentedViewController.swift */; };
 		4F29D3CD1AB4AF420035058C /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F29D3CC1AB4AF420035058C /* BookTableViewCell.swift */; };
 		78A94599E521E0BF3C5F757B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00DF01F80DBBB9EEF45D4470 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		4F18F8921AAE47DF00213A9F /* BookDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDataManager.swift; sourceTree = "<group>"; };
 		4F245DAC1AB4BAAB006BCEEE /* BookTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookTableViewController.swift; sourceTree = "<group>"; };
 		4F245DAE1AB4C102006BCEEE /* ArrayDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDataSource.swift; sourceTree = "<group>"; };
+		4F245DB01AB625DB006BCEEE /* SegmentedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedViewController.swift; sourceTree = "<group>"; };
 		4F29D3CC1AB4AF420035058C /* BookTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
 		4F6F20251AAE4FD700785CA5 /* ToDoApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToDoApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		664A08121E03A6AB370B55C2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		4F18F8671AAE085100213A9F /* ToDoApp */ = {
 			isa = PBXGroup;
 			children = (
+				4F245DB01AB625DB006BCEEE /* SegmentedViewController.swift */,
 				4F245DAE1AB4C102006BCEEE /* ArrayDataSource.swift */,
 				4F18F8921AAE47DF00213A9F /* BookDataManager.swift */,
 				4F245DAC1AB4BAAB006BCEEE /* BookTableViewController.swift */,
@@ -291,6 +294,7 @@
 				4F18F88F1AAE098000213A9F /* TodoTableViewController.swift in Sources */,
 				4F18F8931AAE47DF00213A9F /* BookDataManager.swift in Sources */,
 				4F18F86B1AAE085100213A9F /* AppDelegate.swift in Sources */,
+				4F245DB11AB625DB006BCEEE /* SegmentedViewController.swift in Sources */,
 				4F29D3CD1AB4AF420035058C /* BookTableViewCell.swift in Sources */,
 				4F245DAF1AB4C102006BCEEE /* ArrayDataSource.swift in Sources */,
 				4F245DAD1AB4BAAB006BCEEE /* BookTableViewController.swift in Sources */,

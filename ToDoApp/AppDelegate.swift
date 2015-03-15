@@ -23,8 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         unreadTab.books = BookDataManager.unreadBooks
         let inBoxTab = BookTableViewController()
         inBoxTab.books = BookDataManager.inBoxBooks
-        let doneTab = BookTableViewController()
-        doneTab.books = BookDataManager.doneBooks
+        // let doneTab = BookTableViewController()
+        // doneTab.books = BookDataManager.doneBooks
+        let doneTab = SegmentedViewController()
 
         // タブを要素に持つArrayの.を作成する.
         let myTabs = NSArray(objects:unreadTab,inBoxTab,doneTab)
