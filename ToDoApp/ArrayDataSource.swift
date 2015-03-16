@@ -6,21 +6,22 @@
 
 import UIKit
 
-typealias TableViewCellConfigureBlock = (cell: UITableViewCell, item: AnyObject) -> ()
 
-class ArrayDataSource: NSObject, UITableViewDataSource {
-    var items: [AnyObject]
+
+class ArrayDataSource<T>: NSObject, UITableViewDataSource {
+    var items: [T]
     var cellIdentifier: String
+    typealias TableViewCellConfigureBlock = (cell: UITableViewCell, item: T) -> ()
     var configureCellBlock: TableViewCellConfigureBlock
 
-    init(items: [AnyObject],cellIdentifier: String, configureCellBlock: TableViewCellConfigureBlock) {
+    init(items: [T],cellIdentifier: String, configureCellBlock: TableViewCellConfigureBlock) {
         self.items = items
         self.cellIdentifier = cellIdentifier
         self.configureCellBlock = configureCellBlock
         super.init()
     }
-
-    func itemAtIndexPath(indexPath: NSIndexPath)->AnyObject{
+    // TODO:extension
+    func itemAtIndexPath(indexPath: NSIndexPath)->T{
         return self.items[indexPath.row]
     }
 
@@ -30,7 +31,7 @@ class ArrayDataSource: NSObject, UITableViewDataSource {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier, forIndexPath:indexPath) as UITableViewCell
-        let item: AnyObject = self.itemAtIndexPath(indexPath)
+        let item: T = self.itemAtIndexPath(indexPath)
         self.configureCellBlock(cell:cell, item:item)
         return cell
     }
