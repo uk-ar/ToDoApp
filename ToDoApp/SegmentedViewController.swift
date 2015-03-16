@@ -5,9 +5,9 @@
 
 import UIKit
 
-class SegmentedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SegmentedViewController: UIViewController, UITableViewDataSource,UITableViewDelegate{
 
-    let myItems: NSArray = ["TEST1", "TEST2", "TEST3"]
+    var myItems: ArrayDataSource<String>!
     var myTableView: UITableView!
 
     override init() {
@@ -27,6 +27,7 @@ class SegmentedViewController: UIViewController, UITableViewDelegate, UITableVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //let a=["TEST1", "TEST2", "TEST3"]
 
         self.view.backgroundColor = UIColor.greenColor()
 
@@ -56,6 +57,10 @@ class SegmentedViewController: UIViewController, UITableViewDelegate, UITableVie
         myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
 
         // DataSourceの設定をする.
+        self.myItems = ArrayDataSource<String>(items:["TEST1", "TEST2", "TEST3"],cellIdentifier:"MyCell"){
+            celll,item in
+            println("aa")
+        }
         myTableView.dataSource = self
 
         // Delegateを設定する.
@@ -88,32 +93,24 @@ class SegmentedViewController: UIViewController, UITableViewDelegate, UITableVie
         super.didReceiveMemoryWarning()
     }
 
-    /*
-    Cellが選択された際に呼び出される.
-    */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         println("Num: \(indexPath.row)")
-        println("Value: \(myItems[indexPath.row])")
+        println("Value: \(self.myItems[indexPath.row])")
     }
 
-    /*
-    Cellの総数を返す.
-    */
+    func itemAtIndexPath(indexPath: NSIndexPath)->String{
+        return self.myItems[indexPath.row]
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myItems.count
+        println(self.myItems.count)
+        return self.myItems.count
     }
 
-    /*
-    Cellに値を設定する.
-    */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
-        // Cellの.を取得する.
-        let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath) as UITableViewCell
-
-        // Cellに値を設定する.
-        cell.textLabel!.text = "\(myItems[indexPath.row])"
-
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath:indexPath) as UITableViewCell
+        let item: String = self.itemAtIndexPath(indexPath)
+        cell.textLabel!.text = "\(self.myItems[indexPath.row])"
         return cell
     }
 

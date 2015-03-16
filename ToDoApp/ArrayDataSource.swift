@@ -7,8 +7,8 @@
 import UIKit
 
 
-
-class ArrayDataSource<T>: NSObject, UITableViewDataSource {
+class ArrayDataSource<T>: NSObject, UITableViewDataSource{
+//class ArrayDataSource<T>: NSObject, UITableViewDataSource,UITableViewDelegate {
     var items: [T]
     var cellIdentifier: String
     typealias TableViewCellConfigureBlock = (cell: UITableViewCell, item: T) -> ()
@@ -20,6 +20,15 @@ class ArrayDataSource<T>: NSObject, UITableViewDataSource {
         self.configureCellBlock = configureCellBlock
         super.init()
     }
+
+    subscript(index: Int) -> T {
+        return items[index]
+    }
+
+    var count : Int {
+        return items.count
+    }
+
     // TODO:extension
     func itemAtIndexPath(indexPath: NSIndexPath)->T{
         return self.items[indexPath.row]
@@ -35,4 +44,10 @@ class ArrayDataSource<T>: NSObject, UITableViewDataSource {
         self.configureCellBlock(cell:cell, item:item)
         return cell
     }
+
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        println("Num: \(indexPath.row)")
+//        println("Value: \(self.items[indexPath.row])")
+//    }
+
 }
