@@ -5,9 +5,9 @@
 
 import UIKit
 
-class SegmentedViewController: UIViewController, UITableViewDataSource,UITableViewDelegate{
+class SegmentedViewController: UIViewController, UITableViewDelegate{
 
-    var myItems: ArrayDataSource<String>!
+    var dataSource : ArrayDataSource!
     var myTableView: UITableView!
 
     override init() {
@@ -27,7 +27,6 @@ class SegmentedViewController: UIViewController, UITableViewDataSource,UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let a=["TEST1", "TEST2", "TEST3"]
 
         self.view.backgroundColor = UIColor.greenColor()
 
@@ -52,23 +51,43 @@ class SegmentedViewController: UIViewController, UITableViewDataSource,UITableVi
         self.view.addSubview(mySegcon)
 
         // TableViewの生成する(status barの高さ分ずらして表示).
-        let myTableView: UITableView = UITableView(frame: CGRect(x: 0, y: barHeight + mySegcon.frame.height, width: displayWidth, height: displayHeight - barHeight))
+        myTableView = UITableView(frame: CGRect(x: 0, y: barHeight + mySegcon.frame.height, width: displayWidth, height: displayHeight - barHeight))
         // Cell名の登録をおこなう.
-        myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-
+        myTableView.registerClass(BookTableViewCell.self, forCellReuseIdentifier: "MyCell")
+        //myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
         // DataSourceの設定をする.
-        self.myItems = ArrayDataSource<String>(items:["TEST1", "TEST2", "TEST3"],cellIdentifier:"MyCell"){
-            celll,item in
-            println("aa")
+        dataSource = ArrayDataSource(items:["TEST1", "TEST2", "TEST3"],cellIdentifier:"MyCell"){
+            cell, item in
+            //item in
+            if let book = item as? String {
+                cell.textLabel!.text = book //item as String
+            }
+            if let bookCell = cell as? BookTableViewCell {
+                println("book")
+                //cell.textLabel!.text = book
+                let checkAction = Action(view: bookCell.checkView,
+                                         color:bookCell.greenColor){
+                    cell, state, mode in
+                    println("Did swipe \"Checkmark\" cell")
+                    self.deleteCell(cell)
+                }
+                bookCell.addGesture(.Right,     action: checkAction)
+            }
         }
-        myTableView.dataSource = self
+        myTableView.delegate = dataSource
+        myTableView.dataSource = dataSource
 
         // Delegateを設定する.
-        myTableView.delegate = self
-
-        self.myTableView=myTableView
         // Viewに追加する.
         self.view.addSubview(myTableView)
+    }
+
+    func deleteCell(cell: MCSwipeTableViewCell)->Book?{
+        let indexPath:NSIndexPath=self.myTableView.indexPathForCell(cell)!
+        //let result=books.remove(indexPath.row)
+        //self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        //return result
+        return nil
     }
 
     func segconChanged(segcon: UISegmentedControl){
@@ -92,26 +111,4 @@ class SegmentedViewController: UIViewController, UITableViewDataSource,UITableVi
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("Num: \(indexPath.row)")
-        println("Value: \(self.myItems[indexPath.row])")
-    }
-
-    func itemAtIndexPath(indexPath: NSIndexPath)->String{
-        return self.myItems[indexPath.row]
-    }
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        println(self.myItems.count)
-        return self.myItems.count
-    }
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath:indexPath) as UITableViewCell
-        let item: String = self.itemAtIndexPath(indexPath)
-        cell.textLabel!.text = "\(self.myItems[indexPath.row])"
-        return cell
-    }
-
 }

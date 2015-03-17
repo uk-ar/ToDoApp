@@ -6,22 +6,24 @@
 
 import UIKit
 
-
-class ArrayDataSource<T>: NSObject, UITableViewDataSource{
-//class ArrayDataSource<T>: NSObject, UITableViewDataSource,UITableViewDelegate {
-    var items: [T]
+//UITableViewDataSource is class only protocol
+//TODO: Generics raise error, bug?
+//class ArrayDataSource<T>: NSObject, UITableViewDataSource{
+class ArrayDataSource: NSObject {
+    var items: [AnyObject]
     var cellIdentifier: String
-    typealias TableViewCellConfigureBlock = (cell: UITableViewCell, item: T) -> ()
+    //typealias TableViewCellConfigureBlock = (item: AnyObject) -> ()
+    typealias TableViewCellConfigureBlock = (cell:UITableViewCell, item: AnyObject) -> ()
     var configureCellBlock: TableViewCellConfigureBlock
 
-    init(items: [T],cellIdentifier: String, configureCellBlock: TableViewCellConfigureBlock) {
+    init(items: [AnyObject],cellIdentifier: String, configureCellBlock: TableViewCellConfigureBlock) {
         self.items = items
         self.cellIdentifier = cellIdentifier
         self.configureCellBlock = configureCellBlock
         super.init()
     }
 
-    subscript(index: Int) -> T {
+    subscript(index: Int) -> AnyObject {
         return items[index]
     }
 
@@ -30,24 +32,29 @@ class ArrayDataSource<T>: NSObject, UITableViewDataSource{
     }
 
     // TODO:extension
-    func itemAtIndexPath(indexPath: NSIndexPath)->T{
+    func itemAtIndexPath(indexPath: NSIndexPath)->AnyObject{
         return self.items[indexPath.row]
     }
+}
 
+extension ArrayDataSource : UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.items.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier, forIndexPath:indexPath) as UITableViewCell
-        let item: T = self.itemAtIndexPath(indexPath)
+        let item: AnyObject = self.itemAtIndexPath(indexPath)
         self.configureCellBlock(cell:cell, item:item)
         return cell
+        //return self.configureCellBlock(item:item)
     }
+}
 
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        println("Num: \(indexPath.row)")
-//        println("Value: \(self.items[indexPath.row])")
-//    }
-
+extension ArrayDataSource : UITableViewDelegate {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println("from Array")
+        println("Num: \(indexPath.row)")
+        println("Value: \(self.items[indexPath.row])")
+    }
 }

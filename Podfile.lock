@@ -1,0 +1,13 @@
+PODS:
+  - MCSwipeTableViewCell (2.1.2)
+  - SDCSegmentedViewController (1.2.1)
+
+DEPENDENCIES:
+  - MCSwipeTableViewCell (~> 2.1.0)
+  - SDCSegmentedViewController (~> 1.2.1)
+
+SPEC CHECKSUMS:
+  MCSwipeTableViewCell: 8e78ff197ab06ba7bfd5c938a00149de8a33afa9
+  SDCSegmentedViewController: f273ab530057545eed121c51eec1d24b6699f862
+
+COCOAPODS: 0.35.0

@@ -21,14 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let myFirstTab = TodoTableViewController()
         let unreadTab = BookTableViewController()
         unreadTab.books = BookDataManager.unreadBooks
-        let inBoxTab = BookTableViewController()
-        inBoxTab.books = BookDataManager.inBoxBooks
+        // let inBoxTab = BookTableViewController()
+        // inBoxTab.books = BookDataManager.inBoxBooks
         // let doneTab = BookTableViewController()
         // doneTab.books = BookDataManager.doneBooks
         let doneTab = SegmentedViewController()
+        //let myTab = TableViewController()
 
         // タブを要素に持つArrayの.を作成する.
-        let myTabs = NSArray(objects:unreadTab,inBoxTab,doneTab)
+        let myTabs = NSArray(objects:unreadTab,doneTab)
 
         // UITabControllerの作成する.
         let myTabBarController = UITabBarController()
