@@ -31,6 +31,9 @@ class ArrayDataSource: NSObject {
         return items.count
     }
 
+    func remove(index: Int) -> AnyObject {
+        return self.items.removeAtIndex(index)
+    }
     // TODO:extension
     func itemAtIndexPath(indexPath: NSIndexPath)->AnyObject{
         return self.items[indexPath.row]

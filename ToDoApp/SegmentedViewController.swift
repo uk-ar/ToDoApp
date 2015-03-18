@@ -7,7 +7,7 @@ import UIKit
 
 class SegmentedViewController: UIViewController, UITableViewDelegate{
 
-    var dataSource : ArrayDataSource!
+    var books : ArrayDataSource!
     var myTableView: UITableView!
 
     override init() {
@@ -56,7 +56,7 @@ class SegmentedViewController: UIViewController, UITableViewDelegate{
         myTableView.registerClass(BookTableViewCell.self, forCellReuseIdentifier: "MyCell")
         //myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
         // DataSourceの設定をする.
-        dataSource = ArrayDataSource(items:["TEST1", "TEST2", "TEST3"],cellIdentifier:"MyCell"){
+        books = ArrayDataSource(items:["TEST1", "TEST2", "TEST3"],cellIdentifier:"MyCell"){
             cell, item in
             //item in
             if let book = item as? String {
@@ -74,8 +74,8 @@ class SegmentedViewController: UIViewController, UITableViewDelegate{
                 bookCell.addGesture(.Right,     action: checkAction)
             }
         }
-        myTableView.delegate = dataSource
-        myTableView.dataSource = dataSource
+        myTableView.delegate = books
+        myTableView.dataSource = books
 
         // Delegateを設定する.
         // Viewに追加する.
@@ -84,8 +84,8 @@ class SegmentedViewController: UIViewController, UITableViewDelegate{
 
     func deleteCell(cell: MCSwipeTableViewCell)->Book?{
         let indexPath:NSIndexPath=self.myTableView.indexPathForCell(cell)!
-        //let result=books.remove(indexPath.row)
-        //self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        let result: AnyObject=books.remove(indexPath.row)
+        self.myTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         //return result
         return nil
     }
