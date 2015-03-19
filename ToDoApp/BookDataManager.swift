@@ -18,83 +18,83 @@ private let _doneBooks = BookDataManager(storeKey: "doneBooks.store_key")
 
 final class BookDataManager {
 
-    let STORE_KEY:String
-    var books: [Book]
-    class var unreadBooks : BookDataManager {
-        return _unreadBooks
+  let STORE_KEY:String
+  var books: [Book]
+  class var unreadBooks : BookDataManager {
+    return _unreadBooks
+  }
+  class var inBoxBooks : BookDataManager {
+    return _inBoxBooks
+  }
+  class var doneBooks : BookDataManager {
+    return _doneBooks
+  }
+  private init(storeKey: String) {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    self.STORE_KEY=storeKey
+    if let data = defaults.objectForKey(self.STORE_KEY) as? [String] {
+      self.books = data.map { title in
+        Book(title: title)
+      }
+    } else {
+      self.books = [
+          Book(title: "foo"),
+          Book(title: "bar"),
+          Book(title: "baz")
+        ]
     }
-    class var inBoxBooks : BookDataManager {
-        return _inBoxBooks
+  }
+
+  var size : Int {
+    return books.count
+  }
+
+  subscript(index: Int) -> Book {
+    return books[index]
+  }
+
+  class func validate(book: Book!) -> Bool {
+    return book.title != ""
+  }
+
+  func save() {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    let data = self.books.map { book in
+      book.title
     }
-    class var doneBooks : BookDataManager {
-        return _doneBooks
+    defaults.setObject(data, forKey: self.STORE_KEY)
+    defaults.synchronize()
+  }
+
+  func create(book: Book!) -> Bool {
+    if BookDataManager.validate(book) {
+      self.books.insert(book, atIndex: 0)
+      //self.books.append(book)
+      self.save()
+      return true
     }
-    private init(storeKey: String) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        self.STORE_KEY=storeKey
-        if let data = defaults.objectForKey(self.STORE_KEY) as? [String] {
-            self.books = data.map { title in
-                Book(title: title)
-            }
-        } else {
-            self.books = [
-                Book(title: "foo"),
-                Book(title: "bar"),
-                Book(title: "baz")
-            ]
-        }
+    return false
+  }
+
+  func update(book: Book!, at index: Int) -> Bool {
+    if (index >= self.books.count) {
+      return false
     }
 
-    var size : Int {
-        return books.count
+    if BookDataManager.validate(book) {
+      self.books[index] = book
+      self.save()
+      return true
     }
+    return false
+  }
 
-    subscript(index: Int) -> Book {
-        return books[index]
-    }
+  func remove(index: Int) -> Book {
+    let removed = self.books.removeAtIndex(index)
+    self.save()
 
-    class func validate(book: Book!) -> Bool {
-        return book.title != ""
-    }
-
-    func save() {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let data = self.books.map { book in
-            book.title
-        }
-        defaults.setObject(data, forKey: self.STORE_KEY)
-        defaults.synchronize()
-    }
-
-    func create(book: Book!) -> Bool {
-        if BookDataManager.validate(book) {
-            self.books.insert(book, atIndex: 0)
-            //self.books.append(book)
-            self.save()
-            return true
-        }
-        return false
-    }
-
-    func update(book: Book!, at index: Int) -> Bool {
-        if (index >= self.books.count) {
-            return false
-        }
-
-        if BookDataManager.validate(book) {
-            self.books[index] = book
-            self.save()
-            return true
-        }
-        return false
-    }
-
-    func remove(index: Int) -> Book {
-        let removed = self.books.removeAtIndex(index)
-        self.save()
-
-        return removed
-    }
+    return removed
+  }
 }
 // println(BookDataManager.unreadBooks)
 // println(BookDataManager.inBoxBooks)

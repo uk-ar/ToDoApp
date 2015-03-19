@@ -103,23 +103,23 @@ extension BookTableViewController : UITableViewDataSource {
         //cell.textLabel?.text = "Switch Mode Cell"
         cell.detailTextLabel?.text = "Swipe to swich";
 
-        let checkAction = Action(view: cell.checkView, color:cell.greenColor){
+        let checkAction = Action(view: Action.checkView, color:Action.greenColor){
             cell, state, mode in
             println("Did swipe \"Checkmark\" cell")
             self.deleteCell(cell)
         }
 
-        let crossAction = Action(view: cell.crossView, color:cell.redColor){
+        let crossAction = Action(view: Action.crossView, color:Action.redColor){
             cell, state, mode in
             println("Did swipe \"Cross\" cell")
         }
 
-        let clockAction = Action(view: cell.clockView, color:cell.yellowColor){
+        let clockAction = Action(view: Action.clockView, color:Action.yellowColor){
             cell, state, mode in
             println("Did swipe \"Clock\" cell")
         }
 
-        let listAction = Action(view: cell.listView, color: cell.brownColor){
+        let listAction = Action(view: Action.listView, color:Action.brownColor){
             cell, state, mode in
             println("Did swipe \"List\" cell")
         }

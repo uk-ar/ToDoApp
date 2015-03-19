@@ -14,6 +14,15 @@ import UIKit
 }
 
 struct Action {
+  static let greenColor :UIColor=UIColor(red: 85.0 / 255.0, green: 213.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0);
+  static let redColor   :UIColor=UIColor(red: 232.0 / 255.0, green: 61.0 / 255.0, blue: 14 / 255.0, alpha: 1.0);
+  static let yellowColor:UIColor=UIColor(red: 254.0 / 255.0, green: 217.0 / 255.0, blue: 56.0 / 255.0, alpha: 1.0);
+  static let brownColor :UIColor=UIColor(red: 206.0 / 255.0, green: 149.0 / 255.0, blue: 98.0 / 255.0, alpha: 1.0);
+  static let checkView:UIView=BookTableViewCell.viewWithImageName("check");
+  static let crossView:UIView=BookTableViewCell.viewWithImageName("cross");
+  static let clockView:UIView=BookTableViewCell.viewWithImageName("clock");
+  static let listView :UIView=BookTableViewCell.viewWithImageName("list");
+
     let view: UIView!
     let color: UIColor!
     let block: (cell: MCSwipeTableViewCell!, state: MCSwipeTableViewCellState, mode:MCSwipeTableViewCellMode)->()
@@ -46,23 +55,11 @@ class BookTableViewCell : MCSwipeTableViewCell {
     //var delegate used in parent
     weak var myDelegate: BookTableViewCellDelegate!
 
-    let greenColor, redColor, yellowColor, brownColor :UIColor
-    let checkView, crossView, clockView, listView :UIView
-
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
-        self.greenColor = UIColor(red: 85.0 / 255.0, green: 213.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0);
-        self.redColor   = UIColor(red: 232.0 / 255.0, green: 61.0 / 255.0, blue: 14 / 255.0, alpha: 1.0);
-        self.yellowColor = UIColor(red: 254.0 / 255.0, green: 217.0 / 255.0, blue: 56.0 / 255.0, alpha: 1.0);
-        self.brownColor = UIColor(red: 206.0 / 255.0, green: 149.0 / 255.0, blue: 98.0 / 255.0, alpha: 1.0);
-        self.checkView = BookTableViewCell.viewWithImageName("check");
-        self.crossView = BookTableViewCell.viewWithImageName("cross");
-        self.clockView = BookTableViewCell.viewWithImageName("clock");
-        self.listView  = BookTableViewCell.viewWithImageName("list");
-
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // self.selectionStyle = .None
 
