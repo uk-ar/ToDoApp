@@ -31,6 +31,11 @@ class ArrayDataSource: NSObject {
         return items.count
     }
 
+    func create(item: Any) -> ArrayDataSource {
+        self.items.insert(item, atIndex: 0)
+        return self
+    }
+
     func remove(index: Int) -> Any {
         return self.items.removeAtIndex(index)
     }

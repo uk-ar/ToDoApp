@@ -8,8 +8,12 @@
 
 import UIKit
 
-struct Book {
-    var title : String
+struct Book:Printable {
+  var title : String
+  //support println
+  var description: String {
+    return title
+  }
 }
 //TODO: move to static class variable
 private let _unreadBooks = BookDataManager(storeKey: "unreadBooks.store_key")

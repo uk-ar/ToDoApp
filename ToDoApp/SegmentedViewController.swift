@@ -9,6 +9,7 @@ class SegmentedViewController:UIViewController{
 
   var unreadBooks : ArrayDataSource!
   var inBoxBooks : ArrayDataSource!
+  var doneBooks : ArrayDataSource!
   var myTableView: UITableView!
 
   override init() {
@@ -63,14 +64,24 @@ class SegmentedViewController:UIViewController{
       cell, state, mode in
       println("Did swipe \"Checkmark\" cell")
       self.deleteCell(cell)
+      //self.doneBooks.create()
     }
 
-    //Book(title:s)
-    var a=["UNREAD1", "UNREAD2", "UNREAD3"]
-      //.map({(s:String)->String in return s})
     unreadBooks = ArrayDataSource(
-        items:["UNREAD1", "UNREAD2", "UNREAD3"],
+        // if (s:String)->String
+        //fatal error: can't unsafeBitCast between types of different sizes
+        items: ["UNREAD1", "UNREAD2", "UNREAD3"].map({(s:String)->Any in return Book(title:s)}),
         cellIdentifier:"MyCell"){
+      cell, item in
+
+      let book = item as Book
+      cell.textLabel!.text = book.title
+
+      let bookCell = cell as BookTableViewCell
+      bookCell.addGesture(.Right,action: checkAction)
+    }
+    doneBooks = ArrayDataSource(items:["done1", "done2", "done3"],
+                                 cellIdentifier:"MyCell"){
       cell, item in
 
       let book = item as String
@@ -79,6 +90,7 @@ class SegmentedViewController:UIViewController{
       let bookCell = cell as BookTableViewCell
       bookCell.addGesture(.Right,action: checkAction)
     }
+
     inBoxBooks = ArrayDataSource(items:["inbox1", "inbox2", "inbox3"],
                                  cellIdentifier:"MyCell"){
       cell, item in
@@ -98,14 +110,14 @@ class SegmentedViewController:UIViewController{
     self.view.addSubview(myTableView)
   }
 
-  func deleteCell(cell: MCSwipeTableViewCell)->Book?{
+  func deleteCell(cell: MCSwipeTableViewCell)->Book{
     let indexPath:NSIndexPath=myTableView.indexPathForCell(cell)!
     let books = myTableView.dataSource as ArrayDataSource
     let result = books.remove(indexPath.row) as Book
 
     self.myTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-    //return result
-    return nil
+    return result
+    //return nil
   }
 
   func segconChanged(segcon: UISegmentedControl){
@@ -124,7 +136,11 @@ class SegmentedViewController:UIViewController{
       myTableView.reloadData()
 
     case 2:
-      self.myTableView.backgroundColor = UIColor.greenColor()
+      myTableView.delegate = doneBooks
+      myTableView.dataSource = doneBooks
+      myTableView.reloadData()
+      //removeSegmentAtIndex:animated:
+      //insertSegmentWithTitle:atIndex:animated:
 
     default:
       println("Error")
