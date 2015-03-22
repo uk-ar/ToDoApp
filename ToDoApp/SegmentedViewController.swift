@@ -11,6 +11,7 @@ class SegmentedViewController:UIViewController{
   var inBoxBooks : ArrayDataSource!
   var doneBooks : ArrayDataSource!
   var myTableView: UITableView!
+  var mySegcon: UISegmentedControl!
 
   override init() {
     super.init()
@@ -43,7 +44,7 @@ class SegmentedViewController:UIViewController{
     let myArray: NSArray = ["Unread","InBox","Done"]
 
     // SegmentedControlを作成する.
-    let mySegcon: UISegmentedControl = UISegmentedControl(items: myArray)
+    mySegcon = UISegmentedControl(items: myArray)
 
     mySegcon.center = CGPoint(x: displayWidth/2, y: barHeight + mySegcon.frame.height/2)
     //mySegcon.frame = CGRect(x: 0, y: barHeight, width:  displayWidth, height: 30)
@@ -63,8 +64,7 @@ class SegmentedViewController:UIViewController{
                              color:Action.greenColor){
       cell, state, mode in
       println("Did swipe \"Checkmark\" cell")
-      self.deleteCell(cell)
-      //self.doneBooks.create()
+      self.doneBooks.create(self.deleteCell(cell))
     }
 
     unreadBooks = ArrayDataSource(
@@ -80,23 +80,23 @@ class SegmentedViewController:UIViewController{
       let bookCell = cell as BookTableViewCell
       bookCell.addGesture(.Right,action: checkAction)
     }
-    doneBooks = ArrayDataSource(items:["done1", "done2", "done3"],
+    doneBooks = ArrayDataSource(items:["done1", "done2", "done3"].map({(s:String)->Any in return Book(title:s)}),
                                  cellIdentifier:"MyCell"){
       cell, item in
 
-      let book = item as String
-      cell.textLabel!.text = book //item as String
+      let book = item as Book
+      cell.textLabel!.text = book.title //item as String
 
       let bookCell = cell as BookTableViewCell
       bookCell.addGesture(.Right,action: checkAction)
     }
 
-    inBoxBooks = ArrayDataSource(items:["inbox1", "inbox2", "inbox3"],
+    inBoxBooks = ArrayDataSource(items:["inbox1", "inbox2", "inbox3"].map({(s:String)->Any in return Book(title:s)}),
                                  cellIdentifier:"MyCell"){
       cell, item in
 
-      let book = item as String
-      cell.textLabel!.text = book //item as String
+      let book = item as Book
+      cell.textLabel!.text = book.title //item as String
 
       let bookCell = cell as BookTableViewCell
       bookCell.addGesture(.Right,action: checkAction)
