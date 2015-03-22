@@ -18,29 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
 
-        //let myFirstTab = TodoTableViewController()
-        let unreadTab = BookTableViewController()
-        unreadTab.books = BookDataManager.unreadBooks
-        // let inBoxTab = BookTableViewController()
-        // inBoxTab.books = BookDataManager.inBoxBooks
-        // let doneTab = BookTableViewController()
-        // doneTab.books = BookDataManager.doneBooks
         let doneTab = SegmentedViewController()
-        //let myTab = TableViewController()
-
-        // タブを要素に持つArrayの.を作成する.
-        let myTabs = NSArray(objects:unreadTab,doneTab)
-
-        // UITabControllerの作成する.
-        let myTabBarController = UITabBarController()
-
-        // ViewControllerを設定する.
-        myTabBarController.setViewControllers(myTabs as [AnyObject], animated: false)
 
         // RootViewControllerに設定する.
-        self.window.rootViewController = myTabBarController
-        //self.window.rootViewController = myFirstTab
-
+        self.window.rootViewController = doneTab
         self.window.makeKeyAndVisible()
 
         return true

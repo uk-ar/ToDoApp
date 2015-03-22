@@ -5,6 +5,31 @@
 
 import UIKit
 
+//http://techlife.cookpad.com/entry/2015/03/18/180000
+func doBounceAnimation(view: UIView){
+  UIView.animateWithDuration(
+    0.05,
+    animations: { () -> Void in
+      view.transform = CGAffineTransformMakeScale(1.4, 1.4)
+    },
+    completion: { (Bool) -> Void in
+      UIView.animateWithDuration(
+        0.6,
+        delay: 0.0,
+        usingSpringWithDamping: 0.3,
+        initialSpringVelocity: 0.0,
+        options: .CurveLinear,
+        animations: { () -> Void in
+          view.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        },
+        completion: { (Bool) -> Void in
+          view.transform = CGAffineTransformIdentity
+        }
+      )
+    }
+  )
+}
+
 class SegmentedViewController:UIViewController{
 
   var unreadBooks : ArrayDataSource!
@@ -12,21 +37,6 @@ class SegmentedViewController:UIViewController{
   var doneBooks : ArrayDataSource!
   var myTableView: UITableView!
   var mySegcon: UISegmentedControl!
-
-  override init() {
-    super.init()
-    //remove bar item with all init method
-    self.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Featured, tag: 1)
-  }
-
-  // required for protocol NSCoding
-  required init(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-
-  required override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -58,13 +68,14 @@ class SegmentedViewController:UIViewController{
     myTableView = UITableView(frame: CGRect(x: 0, y: barHeight + mySegcon.frame.height, width: displayWidth, height: displayHeight - barHeight))
     // Cell名の登録をおこなう.
     myTableView.registerClass(BookTableViewCell.self, forCellReuseIdentifier: "MyCell")
-    //myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
 
-    let checkAction = Action(view: Action.checkView,
+    let doneAction = Action(view: Action.checkView,
                              color:Action.greenColor){
       cell, state, mode in
-      println("Did swipe \"Checkmark\" cell")
+      println("Did swipe \"done\" cell")
       self.doneBooks.create(self.deleteCell(cell))
+      let doneView :UIView = self.mySegcon.subviews[0].subviews[0] as UILabel
+      doBounceAnimation(doneView as UIView)
     }
 
     unreadBooks = ArrayDataSource(
@@ -78,7 +89,7 @@ class SegmentedViewController:UIViewController{
       cell.textLabel!.text = book.title
 
       let bookCell = cell as BookTableViewCell
-      bookCell.addGesture(.Right,action: checkAction)
+      bookCell.addGesture(.Right,action: doneAction)
     }
     doneBooks = ArrayDataSource(items:["done1", "done2", "done3"].map({(s:String)->Any in return Book(title:s)}),
                                  cellIdentifier:"MyCell"){
@@ -88,7 +99,7 @@ class SegmentedViewController:UIViewController{
       cell.textLabel!.text = book.title //item as String
 
       let bookCell = cell as BookTableViewCell
-      bookCell.addGesture(.Right,action: checkAction)
+      bookCell.addGesture(.Right,action: doneAction)
     }
 
     inBoxBooks = ArrayDataSource(items:["inbox1", "inbox2", "inbox3"].map({(s:String)->Any in return Book(title:s)}),
@@ -99,7 +110,7 @@ class SegmentedViewController:UIViewController{
       cell.textLabel!.text = book.title //item as String
 
       let bookCell = cell as BookTableViewCell
-      bookCell.addGesture(.Right,action: checkAction)
+      bookCell.addGesture(.Right,action: doneAction)
     }
     // DataSourceの設定をする.
     myTableView.delegate = inBoxBooks
