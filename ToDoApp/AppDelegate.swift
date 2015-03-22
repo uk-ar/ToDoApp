@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
 
+        let slidingViewController = ECSlidingViewController()
         let doneTab = SegmentedViewController()
 
         // RootViewControllerに設定する.

@@ -13,12 +13,26 @@ import UIKit
     optional func removeBook(index: Int)
 }
 
+func viewWithIcon(icon: FAKFontAwesome) -> UIView {
+    let image: UIImage! = icon.imageWithSize(CGSizeMake(20, 20))
+    let imageView: UIImageView = UIImageView(image: image);
+    imageView.contentMode = UIViewContentMode.Center;
+    return imageView;
+}
+
 struct Action {
   static let greenColor :UIColor=UIColor(red: 85.0 / 255.0, green: 213.0 / 255.0, blue: 80.0 / 255.0, alpha: 1.0);
   static let redColor   :UIColor=UIColor(red: 232.0 / 255.0, green: 61.0 / 255.0, blue: 14 / 255.0, alpha: 1.0);
   static let yellowColor:UIColor=UIColor(red: 254.0 / 255.0, green: 217.0 / 255.0, blue: 56.0 / 255.0, alpha: 1.0);
   static let brownColor :UIColor=UIColor(red: 206.0 / 255.0, green: 149.0 / 255.0, blue: 98.0 / 255.0, alpha: 1.0);
-  static let checkView:UIView=BookTableViewCell.viewWithImageName("check");
+  //http://tnakamura.hatenablog.com/entry/2013/12/10/113954
+  static let unreadIcon :FAKFontAwesome = FAKFontAwesome.clockOIconWithSize(20)
+  //circleOIconWithSize(20)
+  static let inboxIcon :FAKFontAwesome = FAKFontAwesome.inboxIconWithSize(20)
+  static let doneIcon :FAKFontAwesome = FAKFontAwesome.checkIconWithSize(20)
+                                   //checkCircleIconWithSize(20)
+
+  static let checkView:UIView=viewWithIcon(doneIcon)
   static let crossView:UIView=BookTableViewCell.viewWithImageName("cross");
   static let clockView:UIView=BookTableViewCell.viewWithImageName("clock");
   static let listView :UIView=BookTableViewCell.viewWithImageName("list");
