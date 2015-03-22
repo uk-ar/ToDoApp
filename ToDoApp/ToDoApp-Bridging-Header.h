@@ -3,3 +3,5 @@
 //
 
 #import <MCSwipeTableViewCell/MCSwipeTableViewCell.h>
+#import <FontAwesomeKit/FAKFontAwesome.h>
+#import <ECSlidingViewController.h>

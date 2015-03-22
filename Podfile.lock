@@ -1,12 +1,29 @@
 PODS:
+  - FontAwesomeKit (2.1.8):
+    - FontAwesomeKit/Core (= 2.1.8)
+    - FontAwesomeKit/FontAwesome (= 2.1.8)
+    - FontAwesomeKit/FoundationIcons (= 2.1.8)
+    - FontAwesomeKit/IonIcons (= 2.1.8)
+    - FontAwesomeKit/Zocial (= 2.1.8)
+  - FontAwesomeKit/Core (2.1.8)
+  - FontAwesomeKit/FontAwesome (2.1.8):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/FoundationIcons (2.1.8):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/IonIcons (2.1.8):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/Zocial (2.1.8):
+    - FontAwesomeKit/Core
   - MCSwipeTableViewCell (2.1.2)
   - SDCSegmentedViewController (1.2.1)
 
 DEPENDENCIES:
+  - FontAwesomeKit (~> 2.1.5)
   - MCSwipeTableViewCell (~> 2.1.0)
   - SDCSegmentedViewController (~> 1.2.1)
 
 SPEC CHECKSUMS:
+  FontAwesomeKit: a2edea3111dab107b4cc43b85881b404eb063385
   MCSwipeTableViewCell: 8e78ff197ab06ba7bfd5c938a00149de8a33afa9
   SDCSegmentedViewController: f273ab530057545eed121c51eec1d24b6699f862
 

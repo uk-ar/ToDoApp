@@ -50,8 +50,19 @@ class SegmentedViewController:UIViewController{
     let displayWidth: CGFloat = self.view.frame.width
     let displayHeight: CGFloat = self.view.frame.height
 
+    //http://tnakamura.hatenablog.com/entry/2013/12/10/113954
+    let unreadIcon :FAKFontAwesome = FAKFontAwesome.clockOIconWithSize(20)
+    //circleOIconWithSize(20)
+    let inboxIcon :FAKFontAwesome = FAKFontAwesome.inboxIconWithSize(20)
+    let doneIcon :FAKFontAwesome = FAKFontAwesome.checkIconWithSize(20)
+                                   //checkCircleIconWithSize(20)
+
     // 表示する配列を作成する.
-    let myArray: NSArray = ["Unread","InBox","Done"]
+    let myArray: NSArray = [
+        unreadIcon.imageWithSize(CGSizeMake(20, 20)),
+        inboxIcon.imageWithSize(CGSizeMake(20, 20)),
+        doneIcon.imageWithSize(CGSizeMake(20, 20)),
+        ]
 
     // SegmentedControlを作成する.
     mySegcon = UISegmentedControl(items: myArray)
@@ -74,8 +85,8 @@ class SegmentedViewController:UIViewController{
       cell, state, mode in
       println("Did swipe \"done\" cell")
       self.doneBooks.create(self.deleteCell(cell))
-      let doneView :UIView = self.mySegcon.subviews[0].subviews[0] as UILabel
-      doBounceAnimation(doneView as UIView)
+      let doneView :UIView = self.mySegcon.subviews[0].subviews[0] as UIView
+      doBounceAnimation(doneView)
     }
 
     unreadBooks = ArrayDataSource(
@@ -87,6 +98,9 @@ class SegmentedViewController:UIViewController{
 
       let book = item as Book
       cell.textLabel!.text = book.title
+      // let icon :FAKFontAwesome = FAKFontAwesome.startIconWithSize(20)
+      // cell.textLabel!.font = icon.iconFont
+      // cell.textLabel!.text = icon.characterCode
 
       let bookCell = cell as BookTableViewCell
       bookCell.addGesture(.Right,action: doneAction)
